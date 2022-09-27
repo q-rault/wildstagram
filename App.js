@@ -17,9 +17,7 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             if (route.name === 'Feed') {
-              iconName = focused
-                ? 'share-social'
-                : 'share-social-outline';
+              iconName = focused ? 'share-social' : 'share-social-outline';
             } else if (route.name === 'Images') {
               iconName = focused ? 'image' : 'image-outline';
             } else if (route.name === 'Camera') {
@@ -35,14 +33,15 @@ export default function App() {
               style={StyleSheet.absoluteFill}
             />
           ),
-          tabBarActiveTintColor: "green",
-          tabBarInactiveTintColor: "grey",
+          tabBarActiveTintColor: 'green',
+          tabBarInactiveTintColor: 'grey',
         })}
       >
         <Tab.Screen
           name="Camera"
           component={CameraScreen}
           options={{ unmountOnBlur: true }}
+          style={styles.container}
         />
         <Tab.Screen name="Images" component={ImagesScreen} />
         <Tab.Screen name="Feed" component={FeedScreen} />
@@ -50,3 +49,9 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

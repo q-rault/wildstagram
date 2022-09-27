@@ -1,10 +1,12 @@
+import { useState, useEffect, useRef } from 'react';
+import { Text, View, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
-import { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import * as ImageManipulator from "expo-image-manipulator";
 
 export default CameraScreen = () => {
   const [type, setType] = useState(CameraType.back);
   const [hasPermission, setHasPermission] = useState(null);
+  const cameraRef = useRef(null);
   function toggleCameraType() {
     setType((current) =>
       current === CameraType.back ? CameraType.front : CameraType.back
@@ -26,18 +28,32 @@ export default CameraScreen = () => {
   }
 
   return (
-    <Camera style={styles.camera} type={type}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-        </TouchableOpacity>
-      </View>
-    </Camera>
+    <>
+      <Camera style={styles.camera} type={type} ref={cameraRef}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={toggleCameraType}
+        ></TouchableOpacity>
+      </Camera>
+      <Button
+        title="Take a picture"
+        onPress={async () => {
+          const pictureMetadata = await cameraRef.current.takePictureAsync();
+          console.log('pictureMetadata', pictureMetadata);
+          console.log(
+            await ImageManipulator.manipulateAsync(pictureMetadata.uri, [
+              { resize: { width: 800 } },
+            ])
+          );
+        }}
+      />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   camera: {
-    flex: 1,
+    flex: 0.8,
   },
   buttonContainer: {
     flex: 1,

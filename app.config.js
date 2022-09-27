@@ -1,4 +1,6 @@
-{
+import "dotenv/config";
+
+export default {
   "expo": {
     "name": "wildstagram",
     "slug": "wildstagram",
@@ -28,6 +30,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    extra: {
+      token: process.env.token,
+    },
   }
 }
